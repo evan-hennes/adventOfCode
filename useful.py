@@ -235,3 +235,22 @@ def checkAllIndices(lst, item):
     else:
         return False
 #end def checkAllIndices
+
+def getAdjacent(matrix, i, j, diag = True):
+    adjacentPoints = []
+    offsetsD = [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (1, -1), (-1, 1), (1, 1)]
+    offsets = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+    if diag:
+      for dx, dy in offsetsD:
+          if i + dx < 0 or i + dx >= len(matrix) or j + dy < 0 or j + dy >= len(matrix):
+              pass #mirror mirror on the wall, do you torture cock and ball?
+          else:
+              adjacentPoints.append((matrix[i + dx][j + dy], (i + dx, j + dy)))
+    else:
+        for dx, dy in offsets:
+          if i + dx < 0 or i + dx >= len(matrix) or j + dy < 0 or j + dy >= len(matrix):
+              pass #mirror mirror on the wall, do you torture cock and ball?
+          else:
+              adjacentPoints.append((matrix[i + dx][j + dy], (i + dx, j + dy)))
+    return adjacentPoints
+  #end def getAdjacent
