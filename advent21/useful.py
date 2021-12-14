@@ -249,7 +249,7 @@ def getAdjacent(matrix, i, j, diag = True):
     else:
         for dx, dy in offsets:
           if i + dx < 0 or i + dx >= len(matrix) or j + dy < 0 or j + dy >= len(matrix):
-              pass #mirror mirror on the wall, do you torture cock and ball?
+              pass #she farted on my dick?
           else:
               adjacentPoints.append((matrix[i + dx][j + dy], (i + dx, j + dy)))
     return adjacentPoints
