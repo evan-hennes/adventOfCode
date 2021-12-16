@@ -257,7 +257,7 @@ def getAdjacent(matrix, i, j, diag = True):
 
 def djikstras(source, graph):
     q = [source]
-    distMap = {((i, j)):(inf if (i, j) != source else 0) for i in range(len(graph)) for j in range(len(graph[i]))}
+    distMap = {((i, j)):(math.inf if (i, j) != source else 0) for i in range(len(graph)) for j in range(len(graph[i]))}
     seen = set()
     while len(q) != 0:
         q.sort(key=lambda q : distMap[q])
