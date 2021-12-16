@@ -253,4 +253,21 @@ def getAdjacent(matrix, i, j, diag = True):
           else:
               adjacentPoints.append((matrix[i + dx][j + dy], (i + dx, j + dy)))
     return adjacentPoints
-  #end def getAdjacent
+#end def getAdjacent
+
+def djikstras(source, graph):
+    q = [source]
+    distMap = {((i, j)):(inf if (i, j) != source else 0) for i in range(len(graph)) for j in range(len(graph[i]))}
+    seen = set()
+    while len(q) != 0:
+        q.sort(key=lambda q : distMap[q])
+        v = q.pop(0)
+        seen.add(v)
+        for a in getAdjacent(graph, v[0], v[1], False):
+            if a[1] not in seen:
+                if distMap[v] + a[0] < distMap[a[1]]:
+                    seen.add(a[1])
+                    q.append(a[1])
+                    distMap[a[1]] = distMap[v] + a[0]
+    return distMap
+#end def djikstras
