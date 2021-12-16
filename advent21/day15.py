@@ -1,5 +1,5 @@
 from useful import convertToVar, getAdjacent
-from collections import defaultdict
+from math import inf
 
 tile1 = convertToVar('test.txt', '\n')
 tile1 = [[int(rl) for rl in list(l)] for l in tile1]
@@ -9,18 +9,8 @@ def displayMtrx(mtrx):
         print(line)
 
 def createTiles(tiles = [], currentIter = 1, maxIter = 8):
-    #print(currentIter)
-    tileX = []
     curr = tiles[-1]
-    for line in curr:
-        #print(line)
-        total = []
-        for l in line:
-            if l + 1 == 10:
-                total.append(1)
-            else:
-                total.append(l + 1)
-        tileX.append(total)
+    tileX = [[1 if l + 1 == 10 else l + 1 for l in line] for line in curr]
     tiles.append(tileX)
     if currentIter == maxIter:
         return tiles
@@ -40,17 +30,28 @@ def createMatrix(mx):
             mtx.append(joined)
     return mtx
 
-ts = [tile1]
-tt = createTiles(ts, currentIter = 1, maxIter = 9)
-#print(tt)
+tt = createTiles([tile1], currentIter = 1, maxIter = 8)
+
 t0, t1, t2, t3, t4, t5, t6, t7, t8 = tt[0], tt[1], tt[2], tt[3], tt[4], tt[5], tt[6], tt[7], tt[8]
 mtrx = [[t0,t1,t2,t3,t4], [t1,t2,t3,t4,t5], [t2,t3,t4,t5,t6], [t3,t4,t5,t6,t7], [t4,t5,t6,t7,t8]]
-#print(mtrx)
+
 cave = createMatrix(mtrx)
 
-def djikstras(start, end, graph):
-    visited = defaultdict(bool)
-    for i in range(len(graph)):
-        for j in range(len(graph)):
-            loc = (i, j)
-            visited[loc] = False
+def djikstras(source, graph):
+    q = [(i, j) for i in range(len(graph)) for j in range(len(graph[i]))]
+    dist = {((i, j)):(inf if (i, j) != source else 0) for i in range(len(graph)) for j in range(len(graph[i]))}
+    while len(q) != 0:
+        v = min({key:dist[key] for key in dist if key in q}, key={key:dist[key] for key in dist if key in q}.get)
+        i, j = v[0], v[1]
+        q.remove(v)
+        adj = getAdjacent(graph, i, j, False)
+        for a in adj:
+            u, weight = a[1], a[0]
+            du, dv = dist[u], dist[v]
+            if dv + weight < du:
+                dist[u] = dv + weight
+    return dist
+#end def djikstras
+
+shortest = djikstras((0, 0), tile1)
+print(shortest)
