@@ -5,16 +5,22 @@ inp = convertToVar("advent22/day07Input.txt", '\n')
 directories = {}
 
 def getDirSum(currSum, dir):
-    print("going again")
+    # print("going again")
     for obj in directories[dir]:
-        print("looping over files in " + dir)
+        # print("looping over files in " + dir)
         if type(obj) is tuple:
+            # prevSum = currSum
             currSum += obj[1]
-            print("added " + str(obj[1]) + " to " + str(currSum))
+            # print("added " + str(obj[1]) + " to " + str(prevSum))
+            # if obj == directories[dir][-1]:
+            #     return currSum
         else:
-            print("recursively going into directory " + obj)
-            currSum += getDirSum(currSum, obj)
-    print("current sum: " + str(currSum))
+            # print("recursively going into directory " + obj)
+            if obj in directories:
+                currSum = getDirSum(currSum, obj)
+            # if obj == directories[dir][-1]:
+            #     return currSum
+    # print("current sum for directory " + dir + ": " + str(currSum))
     return currSum
 
 for line in inp:
@@ -51,10 +57,13 @@ for line in inp:
                 directories[currDir[len(currDir) - 1]].append(tup)
             else:
                 directories[currDir[len(currDir) - 1]] = [tup]
-print(directories)
 
-# dirSums = []
-# for dir in directories:
-#     dirSums.append(getDirSum(0, dir))
-# print(dirSums)
-print(getDirSum(0, '/'))
+dirSums = {}
+for dir in directories:
+    dirSums[dir] = getDirSum(0, dir);
+print(dirSums)
+totalSum = 0
+for dir in dirSums:
+    if dirSums[dir] <= 100000:
+        totalSum += dirSums[dir]
+print(totalSum)
