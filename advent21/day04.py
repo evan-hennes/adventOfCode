@@ -1,5 +1,5 @@
 from useful import convertToVar
-from re import L, sub
+from re import sub
 
 def checkRow(board):
     result = False
